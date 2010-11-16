@@ -24,8 +24,8 @@ import groovyx.gaelyk.routes.RoutesBaseScript
  */
 abstract class PluginBaseScript extends RoutesBaseScript {
 
-    /** contributed binding variables */
-    Map bindingVariables = [:]
+    /** Plugin script delegate */
+    private PluginDelegate pluginDelegate = new PluginDelegate()
 
     /** contributed categories */
     List<Class> categories = []
@@ -39,7 +39,7 @@ abstract class PluginBaseScript extends RoutesBaseScript {
         Closure clonedClosure = c.clone()
 
         // puts the new binding variables into the map directly through closure delegation
-        clonedClosure.delegate = bindingVariables
+        clonedClosure.delegate = pluginDelegate
         clonedClosure.resolveStrategy = Closure.DELEGATE_ONLY
         clonedClosure()
     }
@@ -62,4 +62,10 @@ abstract class PluginBaseScript extends RoutesBaseScript {
     void categories(Class... cats) {
         categories = cats as List
     }
+
+    /**
+     * @return contributed variables
+     */
+    def getBindingVariables() { return pluginDelegate.getBindingVariables() }
+    
 }

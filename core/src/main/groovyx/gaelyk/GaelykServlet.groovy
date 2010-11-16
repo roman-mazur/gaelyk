@@ -22,6 +22,8 @@ import javax.servlet.http.HttpServletRequest
 import javax.servlet.http.HttpServletResponse
 
 import javax.servlet.ServletConfig
+
+import groovyx.gaelyk.plugins.PluginDelegate
 import groovyx.gaelyk.plugins.PluginsHandler
 import groovyx.gaelyk.logging.GroovyLogger
 
@@ -52,6 +54,7 @@ class GaelykServlet extends GroovyServlet {
         GaelykBindingEnhancer.bind(binding)
         PluginsHandler.instance.enrich(binding)
         binding.setVariable("log", GroovyLogger.forGroovletUri(super.getScriptUri(binding.request)))
+        PluginDelegate.defineCurrentBinding binding
     }
 
     /**
